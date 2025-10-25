@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: HyperAGI Inference API with x402 Payments
+  version: 1.0.0
+servers:
+  - url: https://api.hyperagi.ai
+paths:
+  /v1/infer:
+    post:
+      summary: Perform a model inference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [model, input]
+              properties:
+                model: { type: string, example: hyperagi-70b }
+                input: { type: string, example: "Summarize..." }
+                max_tokens: { type: integer, example: 1024 }
+                stream: { type: boolean, example: false }
+      responses:
+        '200':
+          description: Inference complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result: { type: string }
+                  usage:
+                    type: object
+                    properties:
+                      gas_units: { type: integer }
+                      amount: { type: string }
+                      model_version: { type: string }
+        '402':
+          description: Payment required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string, example: PaymentRequired }
+                  payment:
+                    type: object
+                    properties:
+                      payment_id: { type: string, example: pid_abc123 }
+                      chain: { type: string, example: base }
+                      currency: { type: string, example: USDC }
+                      amount: { type: string, example: "0.0042" }
+                      gas_units: { type: integer, example: 4200 }
+                      price_per_unit: { type: string, example: "0.000001" }
+                      recipient: { type: string, example: "0xRecipient..." }
+                      expires_at: { type: string, format: date-time }
+                      facilitator:
+                        type: object
+                        properties:
+                          verify_url: { type: string }
+                          settle_url: { type: string }
+                      checkout_url: { type: string }
+                      memo: { type: string }
+                      payment_methods:
+                        type: array
+                        items: { type: string }
