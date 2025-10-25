@@ -1,0 +1,32 @@
+# Normalize text files to use LF line endings and enable automatic detection
+* text=auto eol=lf
+
+# JavaScript and JSON formatting
+*.js text eol=lf diff=javascript
+*.mjs text eol=lf diff=javascript
+*.cjs text eol=lf diff=javascript
+*.json text eol=lf
+
+# YAML and configuration files
+*.yml text eol=lf
+*.yaml text eol=lf
+*.env text eol=lf
+
+# Shell scripts and Docker-related files
+*.sh text eol=lf diff=sh
+Dockerfile text eol=lf
+docker-compose.yml text eol=lf
+
+# Documentation
+*.md text diff=markdown
+LICENSE text
+
+# Treat generated or third-party code as vendored
+node_modules/** linguist-vendored
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg text eol=lf
